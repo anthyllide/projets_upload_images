@@ -13,7 +13,6 @@ images 	*/
 	{
 	$i=0;
 
-	
 	try 
 		{
 		$bdd = new PDO('mysql:host=localhost; dbname=projet_image', 'root', '');
@@ -31,14 +30,16 @@ images 	*/
 		
 			while ($donnees = $rep -> fetch())
 			{
+			
 		
-			$images [$i] ['filename'] = $donnees ['filename'];
+				$images [$i] ['filename'] = $donnees ['filename'];
 		
-			$image_data = $this->getImageData($donnees ['filename']);
+				$image_data = $this->getImageData($donnees ['filename']);
 				
-			$images [$i] ['title'] = $image_data['title'];
-			$images [$i] ['description'] = $image_data['description'];
-			$i++;
+				$images [$i] ['title'] = $image_data['title'];
+				$images [$i] ['description'] = $image_data['description'];
+				$i++;
+				
 			}
 		
 			return $images;
@@ -222,21 +223,22 @@ images 	*/
 		$images_tmp = $_FILES['upload']['tmp_name'];
 		$images_name = $_FILES['upload']['name'];
 		
+		print_r($_FILES['upload']);
 		foreach ($images_tmp as $key => $tmp_name)
 		{
-			foreach ($images_name as $key => $name)
-			{
+			$name = $images_name [$key];
+			
 		    $moveImage = move_uploaded_file ($tmp_name, $upload_dir.'/'.$name);
-			print_r($name);
+			
 				if ($moveImage == true)
 				{
 				$descr = '';
 				$title = '';
 				
 				$insertImage = $this -> insertImage ($title, $descr, $name);
-				var_dump($insertImage);
+				
 				}
-			}
+			
 		}
 		
 		

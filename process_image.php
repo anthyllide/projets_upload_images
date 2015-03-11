@@ -17,7 +17,7 @@ else
 		$title = strip_tags($_POST['title']);
 		$descr= strip_tags($_POST['descr']);
 		$filename = strip_tags($_POST['filename']);
-		$filename = trim($_POST['filename']);
+		$filename = trim($_POST['filename']); //supprime les espaces avant ou après le nom
 		
 		$newImage = new Image();
 		
@@ -34,20 +34,7 @@ else
 				$msg_error = $updateImage ;
 				}
 			}
-			else
-			{
-		
-			$insertImage = $newImage -> insertImage($title,$descr,$filename);
-		
-				if($insertImage === true)
-				{
-				$msg_success = 'Les informations ont bien été enregistrées';
-				}
-				else
-				{
-				$msg_error = $insertImage;
-				}
-			}
+			
 	}	
 		
 	

@@ -60,7 +60,7 @@ foreach ($affichage_images as $value)
 <input type="hidden" name="filename" value="<?php echo $value ['filename'];?>"/>
 
 	<?php
-	if (!empty ($value['title']))
+	if (!empty ($value['filename']))
 	{
 	?>
 	<input type="hidden" name="update" value="1"/>
