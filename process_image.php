@@ -1,23 +1,6 @@
 <?php
-
-if (!isset($_POST['formImageSubmit']))
-{
-$msg_error = 'Aucune donnée n\'est fournie.';
-
-}
-else
-{
-	if ((empty($_POST['title'])) OR (empty($_POST['descr'])) OR (empty($_POST['filename'])))
-	{
-	$msg_error = 'Une des informations est manquante';
 	
-	}
-	else
-	{
-		$title = strip_tags($_POST['title']);
-		$descr= strip_tags($_POST['descr']);
-		$filename = strip_tags($_POST['filename']);
-		$filename = trim($_POST['filename']); //supprime les espaces avant ou après le nom
+		
 		
 		$newImage = new Image();
 		
@@ -35,10 +18,6 @@ else
 				}
 			}
 			
-	}	
-		
 	
-	
-}
 
 ?>

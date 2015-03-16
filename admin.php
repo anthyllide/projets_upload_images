@@ -20,6 +20,8 @@ require_once('process_image.php');
 
 <h1><?php echo WEB_TITLE; ?></h1>
 
+<?php require_once ('menu_admin.php'); ?>
+
 <div id="error">
 
 <?php
@@ -44,17 +46,15 @@ $image = new Image();
 
 $affichage_images = $image -> getImages ();
 
-var_dump ($affichage_images);
-
 foreach ($affichage_images as $value)
 {
 
 ?>
-
+<div id="div_admin">
 <ul>
 <li><img src="<?php echo IMAGE_DIR_URL.$value['filename']; ?>"/></li>
 </ul>
-<form method="post" action="admin.php">
+<form id="form_admin" method="post" action="admin.php">
 <p>
 <label for="title">Titre</label><input type="text" name="title" id="title" value="<?php echo $value ['title']; ?>" />
 <input type="hidden" name="filename" value="<?php echo $value ['filename'];?>"/>
@@ -73,9 +73,9 @@ foreach ($affichage_images as $value)
 <label for="description">Description</label><br />
 <textarea name="descr" id="description" cols="50" rows="5"><?php echo $value['description']; ?></textarea>
 </p>
-<p><input type="submit" name="formImageSubmit" value="Validez" /></p>
+<p><input id="submit" type="submit" name="formImageSubmit" value="Validez" /></p>
 </form>
-<hr />
+</div>
 <?php
 }
 ?>
