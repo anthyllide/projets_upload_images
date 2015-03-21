@@ -154,32 +154,21 @@ images 	*/
 				return $msg_error.' :'.$table_error [2];
 				
 			}
-	}		
-		public function upload($files)
+	}
+
+	
+	public function upload($files)
+	{
+		
+		print_r($files);
+		
+		foreach ($files ['tmp_name'] as $key => $tmp_name)
 		{
 		
-		$files = $_FILES['upload'];
+		$type = $files ['type'][$key];
+		$error = $files ['error'][$key];
+		$name = $files ['name'][$key];
 		
-		//verification si les fichiers sont bien uploadés
-		
-		$filesError = $_FILES['upload']['error'];
-			
-			foreach ($filesError as $key => $error)
-			{
-				
-				if ($error == 2)
-				{
-				$msg_error = 'Le fichier dépasse 90Mo.';
-				return $msg_error;
-				}
-				elseif (!$error == 0)
-				{
-				$msg_error ='Une erreur s\'est produite lors du téléchargement.';
-				return $msg_error;
-				}
-			}
-					
-		//vérification extension
 		$extension_autorisees = array (
 									'jpg',
 									'jpeg',
@@ -187,69 +176,72 @@ images 	*/
 									'gif'
 									);
 									
-		$filesExtension = $_FILES['upload']['type'];
-			
-			foreach ($filesExtension as $key => $type)
+		$extension = basename($type);
+		
+			if (in_array($extension, $extension_autorisees))
 			{
-			$extension = basename($type);
 			
-			$result = in_array($extension, $extension_autorisees);
+				$images_size = getimagesize($tmp_name);
 			
-				if ($result == false)
+				if(($images_size[0] < MAX_WIDTH) OR ($images_size[1] < MAX_HEIGHT))
 				{
-				$msg_error = 'Format non accepté';
-				return $msg_error;
-				}
+					if ($error === 0) 
+					{
+					
+						
+					//Déplacer le fichier
+					$upload_dir = IMAGE_DIR_PATH;
+					
+					$moveImage = move_uploaded_file ($tmp_name, $upload_dir.'/'.$name);
+					
+						if ($moveImage === true)
+						{
 				
-			}
-			
-		//vérification dimensions images
-		$images_tmp = $_FILES['upload']['tmp_name'];
-			
-		$maxwidth = 300;
-		$maxheight = 400;
-			
-			foreach ($images_tmp as $key => $tmp)
-			{
-			$images_size = getimagesize($tmp);
-			
-				if(($images_size[0] > $maxwidth) OR ($images_size[1] > $maxheight))
+						$descr = '';
+						$title = '';
+				
+						$insertImage = $this -> insertImage ($title, $descr, $name);
+						
+							if ($insertImage == true)
+							{
+							return true;
+							}
+							else
+							{
+							$msg_error = 'L\'image n\'a pas pu être enregistrée.';
+							return $msg_error;
+							}
+						}	
+						else
+						{
+						$msg_error = 'L\'image n\'a pas pu être téléchargée.';
+						return $msg_error;
+						}
+					
+					}
+					else
+					{
+					$msg_error = 'Une erreur s\'est produite lors du téléchargement.';
+					return $msg_error;
+					}
+					
+				}
+				else
 				{
 				$msg_error = 'Les dimensions de l\'image sont trop grandes.';
 				return $msg_error;
 				}
 			}
-		
-		
-		//Déplacer le fichier
-		$upload_dir =IMAGE_DIR_PATH;
-		$images_tmp = $_FILES['upload']['tmp_name'];
-		$images_name = $_FILES['upload']['name'];
-		
-		foreach ($images_tmp as $key => $tmp_name)
-		{
-			$name = $images_name [$key];
-			
-		    $moveImage = move_uploaded_file ($tmp_name, $upload_dir.'/'.$name);
-			
-				if ($moveImage === true)
-				{
-				
-				$descr = '';
-				$title = '';
-				
-				$insertImage = $this -> insertImage ($title, $descr, $name);
-				
-				return true;
-				}
-				else
-				{
-				return false;
-				}
-			
-		}
+			else
+			{
+			$msg_error = 'Format non accepté';
+			return $msg_error;
+			}
 		
 		}
+		
+	}
+		
 		
 			
 	

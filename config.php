@@ -5,3 +5,5 @@ define('IMAGE_DIR_PATH', $_SERVER['DOCUMENT_ROOT'].'/'.WEB_DIR_NAME.'/'.IMAGE_DI
 define('IMAGE_DIR_URL', 'http://'.$_SERVER['HTTP_HOST'].'/'.WEB_DIR_NAME.'/'.IMAGE_DIR_NAME.'/');
 define('WEB_TITLE','Projet images');
 define('WEB_DIR_URL', 'http://'.$_SERVER['HTTP_HOST'].'/'.WEB_DIR_NAME.'/');
+define ('MAX_HEIGHT', '400');
+define ('MAX_WIDTH', '300');

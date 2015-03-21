@@ -9,15 +9,17 @@ if (!empty($_FILES['upload']))
 
 $uploadImages = $image -> upload($_FILES['upload']);
 
-	if ($uploadImages === true)
-	{
-	$msg_success = 'Le chargement a réussi.';
-	}
+print_r($uploadImages);
 
+if ($uploadImages === true)
+{
+$msg_success = 'Le téléchargement a réussi.';
 }
 else
 {
-$msg_error = 'Le chargement a échoué.';
+$msg_error = $uploadImages;
+}
+
 }
 ?>
 
@@ -36,27 +38,24 @@ $msg_error = 'Le chargement a échoué.';
 <?php require_once ('menu_admin.php'); ?>
 
 <?php
-if(isset ($msg_error))
+if (!empty($msg_success))
 {
-
-?>
-
-<p id="msg_error"><?php echo $msg_error; ?></p>
+?><p id="msg_success"><?php echo $msg_success;?></p>
 <?php
 }
-elseif (isset($msg_success))
+elseif (!empty($msg_error))
 {
-?>
-<p id="msg_success"><?php echo $msg_success; ?></p>
+?><p id="msg_error"><?php echo $msg_error;?></p>
 <?php
 }
 ?>
+
 
 <form action="upload.php" method="post" enctype="multipart/form-data">
 
 <label>Ajouter des images</label>
 
-<input type="hidden" name="MAX_FILE_SIZE" value="90000" />
+<input type="hidden" name="MAX_FILE_SIZE" value="900" />
 <p>
 <input type="file" value="Téléchargez votre image" id="upload" name="upload[]" multiple />
 </p>

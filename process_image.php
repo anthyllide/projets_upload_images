@@ -6,6 +6,11 @@
 		
 			if(isset($_POST['update']))
 			{
+			
+				$title = strip_tags($_POST['title']);
+				$descr = strip_tags($_POST['descr']);
+				$filename = $_POST['filename'];
+		
 				$updateImage = $newImage->updateImageData($title,$descr,$filename);
 				
 				if($updateImage === true)
