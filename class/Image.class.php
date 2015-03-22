@@ -5,9 +5,6 @@ class Image {
 	{
 	}
 	
-	/* Ouvre le répertoire où sont stockés les images, puis il les lit. Ensuite, tant que $entry est vraie,
-	alors on crée un tableau associatif $images en récupérant les données title et description dans la table 
-images 	*/
 	
 	public function getImages ()
 	{
@@ -30,7 +27,10 @@ images 	*/
 		
 			while ($donnees = $rep -> fetch())
 			{
-			
+				$path = IMAGE_DIR_PATH.$donnees['filename'];
+				
+				if (file_exists($path))
+				{
 		
 				$images [$i] ['filename'] = $donnees ['filename'];
 		
@@ -39,6 +39,7 @@ images 	*/
 				$images [$i] ['title'] = $image_data['title'];
 				$images [$i] ['description'] = $image_data['description'];
 				$i++;
+				}
 				
 			}
 		
@@ -241,7 +242,45 @@ images 	*/
 		}
 		
 	}
+	
+	
+	public function createThumbnail ($filename)
+	{
+		$image = IMAGE_DIR_PATH . $filename;
+		$vignette = THUMB_DIR_PATH.$filename;
 		
+		$source = imagecreatefromjpeg ($image);
+		
+		$largeur_source = imagesx($source);
+		$hauteur_source = imagesy($source);
+		
+		$largeur_destination_max = 200;
+		$hauteur_destination_max = 200;
+		
+		//on vérifie que l'image source ne soit pas plus petite que l'image de destination
+		if ($largeur_source > $largeur_destination_max || $hauteur_source > $hauteur_destination_max)
+		{
+				//la plus grande des dimensions est la référence
+				if($hauteur_source <= $largeur_source)
+				{
+					$ratio = $largeur_destination_max / $largeur_source; 
+				}
+				else
+				{
+					$ratio = $hauteur_destination_max / $hauteur_source; 
+				}
+		}
+		else
+		{
+			$ratio = 1;
+		}
+		
+		$destination = imagecreatetruecolor(round($largeur_source*$ratio),round($hauteur_source*$ratio));
+		
+		//création de la vignette
+		
+		imagecopyresampled ($destination, $source, 0, 0 , 0, 0, round($largeur_source*$ratio),round($hauteur_source*$ratio), $largeur_source, $hauteur_source);
+	}
 		
 			
 	

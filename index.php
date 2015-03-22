@@ -21,7 +21,7 @@ require_once('config.php');
 
 <nav>
 <ul>
-<li><a href="admin.php">Administration</a></li>
+<li><a href="admin/admin.php">Administration</a></li>
 </ul>
 </nav>
 
