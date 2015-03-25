@@ -52,7 +52,7 @@ foreach ($affichage_images as $value)
 ?>
 <div id="div_admin">
 <ul>
-<li><img src="<?php echo IMAGE_DIR_URL.$value['filename']; ?>"/></li>
+<li><img src="<?php echo THUMBNAIL_DIR_URL.$value['filename']; ?>"/></li>
 </ul>
 <form id="form_admin" method="post" action="admin.php">
 <p>

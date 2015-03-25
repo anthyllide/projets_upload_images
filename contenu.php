@@ -23,7 +23,7 @@ else
 	?>
 
 	<ul>
-	<li><img src="<?php echo IMAGE_DIR_URL.$value ['filename']; ?>"/></li>
+	<li><img src="<?php echo THUMBNAIL_DIR_URL.$value ['filename']; ?>"/></li>
 	</ul>
 	<?php
 	}

@@ -9,3 +9,4 @@ define ('MAX_HEIGHT', '400');
 define ('MAX_WIDTH', '300');
 define('THUMBNAIL_DIR_NAME', 'thumbnails');
 define ('THUMB_DIR_PATH',  $_SERVER['DOCUMENT_ROOT'].'/'.WEB_DIR_NAME.'/'.THUMBNAIL_DIR_NAME.'/');
+define('THUMBNAIL_DIR_URL', 'http://'.$_SERVER['HTTP_HOST'].'/'.WEB_DIR_NAME.'/'.THUMBNAIL_DIR_NAME.'/');

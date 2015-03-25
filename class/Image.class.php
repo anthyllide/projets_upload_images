@@ -156,95 +156,7 @@ class Image {
 				
 			}
 	}
-
-	
-	public function upload($files)
-	{
-		
-		print_r($files);
-		
-		foreach ($files ['tmp_name'] as $key => $tmp_name)
-		{
-		
-		$type = $files ['type'][$key];
-		$error = $files ['error'][$key];
-		$name = $files ['name'][$key];
-		
-		$extension_autorisees = array (
-									'jpg',
-									'jpeg',
-									'png',
-									'gif'
-									);
-									
-		$extension = basename($type);
-		
-			if (in_array($extension, $extension_autorisees))
-			{
-			
-				$images_size = getimagesize($tmp_name);
-			
-				if(($images_size[0] < MAX_WIDTH) OR ($images_size[1] < MAX_HEIGHT))
-				{
-					if ($error === 0) 
-					{
-					
-						
-					//Déplacer le fichier
-					$upload_dir = IMAGE_DIR_PATH;
-					
-					$moveImage = move_uploaded_file ($tmp_name, $upload_dir.'/'.$name);
-					
-						if ($moveImage === true)
-						{
-				
-						$descr = '';
-						$title = '';
-				
-						$insertImage = $this -> insertImage ($title, $descr, $name);
-						
-							if ($insertImage == true)
-							{
-							return true;
-							}
-							else
-							{
-							$msg_error = 'L\'image n\'a pas pu être enregistrée.';
-							return $msg_error;
-							}
-						}	
-						else
-						{
-						$msg_error = 'L\'image n\'a pas pu être téléchargée.';
-						return $msg_error;
-						}
-					
-					}
-					else
-					{
-					$msg_error = 'Une erreur s\'est produite lors du téléchargement.';
-					return $msg_error;
-					}
-					
-				}
-				else
-				{
-				$msg_error = 'Les dimensions de l\'image sont trop grandes.';
-				return $msg_error;
-				}
-			}
-			else
-			{
-			$msg_error = 'Format non accepté';
-			return $msg_error;
-			}
-		
-		}
-		
-	}
-	
-	
-	public function createThumbnail ($filename)
+public function createThumbnail ($filename)
 	{
 		$image = IMAGE_DIR_PATH . $filename;
 		$vignette = THUMB_DIR_PATH.$filename;
@@ -280,8 +192,118 @@ class Image {
 		//création de la vignette
 		
 		imagecopyresampled ($destination, $source, 0, 0 , 0, 0, round($largeur_source*$ratio),round($hauteur_source*$ratio), $largeur_source, $hauteur_source);
+		
+		imagejpeg($destination, $vignette);
 	}
 		
 			
+	
+	
+	public function upload($files)
+	{
+		
+		print_r($files);
+		
+		foreach ($files ['tmp_name'] as $key => $tmp_name)
+		{
+		
+		$type = $files ['type'][$key];
+		$error = $files ['error'][$key];
+		$name = $files ['name'][$key];
+		
+		$extension_autorisees = array (
+									'jpg',
+									'jpeg',
+									'png',
+									'gif'
+									);
+									
+		$extension = basename($type);
+		print_r($extension);
+	
+		
+			if (in_array($extension, $extension_autorisees))
+			{
+			
+				$images_size = getimagesize($tmp_name);
+			
+				if(($images_size[0] < MAX_WIDTH) OR ($images_size[1] < MAX_HEIGHT))
+				{
+					if ($error == 0) 
+					{
+					
+						
+					//Déplacer le fichier
+					$upload_dir = IMAGE_DIR_PATH;
+					
+					$moveImage = move_uploaded_file ($tmp_name, $upload_dir.'/'.$name);
+					
+						if ($moveImage === true)
+						{
+				
+						$descr = '';
+						$title = '';
+				
+						$insertImage = $this -> insertImage ($title, $descr, $name);
+						
+							if ($insertImage == true)
+							{
+							$msg_success [$key] = 'Upload réussi';
+							$this-> createThumbnail ($name);
+							continue;
+							}
+							else
+							{
+							$msg_error [$key]= 'L\'image n\'a pas pu être enregistrée.';
+							continue;
+							}
+						}	
+						else
+						{
+						$msg_error [$key] = 'L\'image n\'a pas pu être téléchargée.';
+						continue;
+						}
+					
+					}
+					else
+					{
+					$msg_error [$key] = 'Une erreur s\'est produite lors du téléchargement.';
+					continue;
+					}
+					
+				}
+				else
+				{
+				$msg_error [$key] = 'Les dimensions de l\'image sont trop grandes.';
+				continue;
+				}
+			}
+			else
+			{
+			$msg_error [$key] = 'Format non accepté';
+			continue;
+			}
+		
+		}
+		
+		if((isset($success)) AND (isset($msg_error)))
+		{
+		return $msg_final AND $msg_success ;
+		}
+		
+		elseif (isset($success))
+		{
+		return $msg_success;
+		}
+		
+		elseif (isset ($msg_error))
+		{
+		return $msg_error;
+		}
+		
+	}
+	
+	
+	
 	
 }

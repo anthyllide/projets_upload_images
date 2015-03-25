@@ -1,4 +1,5 @@
 <?php
+
 require_once('../config.php');
 require('../class/Image.class.php');
 
@@ -11,16 +12,11 @@ $uploadImages = $image -> upload($_FILES['upload']);
 
 print_r($uploadImages);
 
-if ($uploadImages === true)
-{
-$msg_success = 'Le téléchargement a réussi.';
-}
-else
-{
-$msg_error = $uploadImages;
-}
+
 
 }
+
+
 ?>
 
 <!DOCTYPE html>
@@ -38,16 +34,43 @@ $msg_error = $uploadImages;
 <?php require_once ('menu_admin.php'); ?>
 
 <?php
-if (!empty($msg_success))
+if (!empty($msg_final))
 {
-?><p id="msg_success"><?php echo $msg_success;?></p>
+?><p id="msg_success"><?php echo $msg_final;?></p>
 <?php
 }
-elseif (!empty($msg_error))
+elseif (uploadImages === $msg_success)
 {
-?><p id="msg_error"><?php echo $msg_error;?></p>
+?>
+<p id="msg_success">
+<?php
+foreach($msg_success as $key => $value) {
+
+ echo 'image '. ($key+1).' : '.$value.' , ';?>
 <?php
 }
+
+?>
+</p>
+<?php
+}
+elseif (uploadImages == $msg_error)
+{
+?>
+<p id="msg_error">
+<?php
+foreach($msg_error as $key => $value) {
+
+ echo 'image '. ($key+1).' : '.$value.' , ';?>
+<?php
+
+}
+?>
+</p>
+<?php
+
+}
+
 ?>
 
 
