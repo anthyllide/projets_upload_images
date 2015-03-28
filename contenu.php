@@ -22,7 +22,7 @@ else
 
 	?>
 
-	<ul>
+	<ul id="miniature_index">
 	<li><img src="<?php echo THUMBNAIL_DIR_URL.$value ['filename']; ?>"/></li>
 	</ul>
 	<?php

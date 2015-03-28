@@ -3,16 +3,25 @@
 require_once('../config.php');
 require('../class/Image.class.php');
 
+// création de l'objet $image
 $image = new Image();
 
+// si $_FILES['upload'] n'est pas vide, alors on applique à $image la méthode upload()
 if (!empty($_FILES['upload']))
 {
 
 $uploadImages = $image -> upload($_FILES['upload']);
 
-print_r($uploadImages);
 
-
+/* Si $uploadImages retourne true alors on affiche le msg_succes, sinon $uploadImages comporte des erreurs, on affiche donc le tableau $msg_error.*/
+if ($uploadImages === true)
+{
+$msg_success = 'Le téléchargement a réussi.';
+}
+else
+{
+$msg_error = $uploadImages;
+}
 
 }
 
@@ -31,38 +40,25 @@ print_r($uploadImages);
 <body>
 <h1>Téléchargez ici vos images</h1>
 
-<?php require_once ('menu_admin.php'); ?>
+<?php require_once ('menu_admin.php'); 
 
-<?php
-if (!empty($msg_final))
-{
-?><p id="msg_success"><?php echo $msg_final;?></p>
-<?php
-}
-elseif (uploadImages === $msg_success)
+if (isset($msg_success))
 {
 ?>
 <p id="msg_success">
-<?php
-foreach($msg_success as $key => $value) {
-
- echo 'image '. ($key+1).' : '.$value.' , ';?>
-<?php
-}
-
-?>
+<?php echo $msg_success; ?>
 </p>
 <?php
 }
-elseif (uploadImages == $msg_error)
+
+elseif (isset($msg_error))
 {
 ?>
 <p id="msg_error">
 <?php
 foreach($msg_error as $key => $value) {
 
- echo 'image '. ($key+1).' : '.$value.' , ';?>
-<?php
+ echo '<strong> image '. ($key+1).' :</strong> '.$value.'  ';
 
 }
 ?>

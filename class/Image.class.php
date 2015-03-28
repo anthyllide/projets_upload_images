@@ -156,18 +156,34 @@ class Image {
 				
 			}
 	}
-public function createThumbnail ($filename)
+	
+	//créations des images miniatures
+	public function createThumbnail ($filename)
 	{
-		$image = IMAGE_DIR_PATH . $filename;
+		$image = IMAGE_DIR_PATH.$filename;
 		$vignette = THUMB_DIR_PATH.$filename;
 		
+		$image_type = exif_imagetype($image);
+ 
+		
+		if($image_type == IMAGETYPE_JPEG)
+		{
 		$source = imagecreatefromjpeg ($image);
+		}
+		elseif ($image_type == IMAGETYPE_PNG)
+		{
+		$source = imagecreatefrompng ($image);
+		}
+		elseif($image_type == IMAGETYPE_GIF)
+		{
+		imagegif($destination, $vignette);
+		}
 		
 		$largeur_source = imagesx($source);
 		$hauteur_source = imagesy($source);
 		
 		$largeur_destination_max = 200;
-		$hauteur_destination_max = 200;
+		$hauteur_destination_max = 150;
 		
 		//on vérifie que l'image source ne soit pas plus petite que l'image de destination
 		if ($largeur_source > $largeur_destination_max || $hauteur_source > $hauteur_destination_max)
@@ -193,12 +209,23 @@ public function createThumbnail ($filename)
 		
 		imagecopyresampled ($destination, $source, 0, 0 , 0, 0, round($largeur_source*$ratio),round($hauteur_source*$ratio), $largeur_source, $hauteur_source);
 		
+		if($image_type == IMAGETYPE_JPEG)
+		{
 		imagejpeg($destination, $vignette);
+		}
+		elseif($image_type == IMAGETYPE_PNG)
+		{
+		imagepng($destination, $vignette);
+		}
+		elseif($image_type == IMAGETYPE_GIF)
+		{
+		imagegif($destination, $vignette);
+		}
 	}
 		
 			
 	
-	
+	// upload des serveurs dans le répertoires images du serveur, puis insertion dans la BDD
 	public function upload($files)
 	{
 		
@@ -248,8 +275,8 @@ public function createThumbnail ($filename)
 						
 							if ($insertImage == true)
 							{
-							$msg_success [$key] = 'Upload réussi';
 							$this-> createThumbnail ($name);
+							$msg_success = true;
 							continue;
 							}
 							else
@@ -286,19 +313,19 @@ public function createThumbnail ($filename)
 		
 		}
 		
-		if((isset($success)) AND (isset($msg_error)))
+		if((isset($msg_success)) AND (isset($msg_error)))
 		{
-		return $msg_final AND $msg_success ;
+		return $msg_error ; //tableau des différentes erreurs
 		}
 		
-		elseif (isset($success))
+		elseif (isset($msg_success))
 		{
-		return $msg_success;
+		return true; //renvoie true 
 		}
 		
 		elseif (isset ($msg_error))
 		{
-		return $msg_error;
+		return $msg_error; //tableau des différentes erreurs
 		}
 		
 	}
