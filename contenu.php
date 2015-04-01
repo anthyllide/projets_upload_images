@@ -4,6 +4,7 @@ $image = new Image();
 
 $affichage_images = $image -> getImages ();
 
+var_dump($affichage_images);
 
 if (!is_array($affichage_images))
 {

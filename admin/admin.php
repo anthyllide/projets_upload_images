@@ -2,7 +2,9 @@
 
 require_once('../config.php');
 require_once('../class/Image.class.php');
+require_once('../process/process_delete.php');
 require_once('../process/process_image.php');
+
 
 ?>
 <!DOCTYPE html>
@@ -25,6 +27,7 @@ require_once('../process/process_image.php');
 <div id="error">
 
 <?php
+
 if (isset ($msg_success))
 {
 ?>
@@ -37,6 +40,7 @@ if (isset ($msg_error))
 <p id="msg_error"><?php echo $msg_error; ?></p>
 <?php
 }
+
 ?>
 </div>
 
@@ -46,39 +50,54 @@ $image = new Image();
 
 $affichage_images = $image -> getImages ();
 
-foreach ($affichage_images as $value)
+if (is_array($affichage_images))
 {
 
-?>
-<div id="div_admin">
-<ul>
-<li><img src="<?php echo THUMBNAIL_DIR_URL.$value['filename']; ?>"/></li>
-</ul>
-<form id="form_admin" method="post" action="admin.php">
-<p>
-<label for="title">Titre</label><input type="text" name="title" id="title" value="<?php echo $value ['title']; ?>" />
-<input type="hidden" name="filename" value="<?php echo $value ['filename'];?>"/>
+	foreach ($affichage_images as $value)
+	{
+
+	?>
+	<div id="div_admin">
+	<ul>
+	<li><img src="<?php echo THUMBNAIL_DIR_URL.$value['filename']; ?>"/></li>
+	</ul>
+	<form id="form_admin" method="post" action="admin.php">
+	<p>
+	<label for="title">Titre</label><input type="text" name="title" id="title" value="<?php echo $value ['title']; ?>" />
+	<input type="hidden" name="filename" value="<?php echo $value ['filename'];?>"/>
 
 	<?php
-	if (!empty ($value['filename']))
-	{
-	?>
-	<input type="hidden" name="update" value="1"/>
-	<?php
-	}
+		if (!empty ($value['filename']))
+		{
+		?>
+		<input type="hidden" name="update" value="1"/>
+		<?php
+		}
 	?>
 	
-</p>
-<p>
-<label for="description">Description</label><br />
-<textarea name="descr" id="description" cols="50" rows="5"><?php echo $value['description']; ?></textarea>
-</p>
-<p><input id="submit" type="submit" name="formImageSubmit" value="Validez" /></p>
-</form>
-</div>
+	</p>
+	<p>
+	<label for="description">Description</label><br />
+	<textarea name="descr" id="description" cols="50" rows="5"><?php echo $value['description']; ?></textarea>
+	</p>
+	<p><input id="submit" type="submit" name="formImageSubmit" value="Validez" /></p>
+	<p><a href="admin.php?delete=<?php echo $value ['filename'];?>">Supprimer</a></p>
+	</form>
+	</div>
+	<div class="clear"></div>
+	<?php
+	}
+	
+}
+else
+{
+$msg_error = $affichage_images;
+?>
+<p id="msg_error"><?php echo $msg_error; ?></p>
 <?php
 }
-?>
+require('../footer.php');
+	?>
  </div>                         
 </body>
 </html>

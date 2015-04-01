@@ -10,6 +10,7 @@ background-image:linear-gradient(#e2e9ea, #aab7b8);
 
 #wrapper {
 width : 990px;
+min-height : 600px;
 margin : 0 auto;
 border-radius : 20px;
 }
@@ -49,6 +50,16 @@ color : white;
 
 nav ul li a:hover {
 color : orange;
+}
+
+footer {
+border : 1px dotted white;
+height : 40px;
+width : 900px;
+margin : 20px auto;
+text-align : center;
+line-height : 40px;
+font-weight : italic;
 }
 
 #miniature_index li img{
@@ -129,8 +140,7 @@ margin : 0 auto;
 
 form {
 width: 600px;
-height : 600px;
-border : solid 1px black;
+height : 200px;
 margin : 10px auto;
 }
 

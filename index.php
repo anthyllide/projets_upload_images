@@ -34,6 +34,7 @@ require_once('config.php');
 
 </div>
 
+<?php require('footer.php');?>
 
 </div>
                             

@@ -38,6 +38,7 @@ $msg_error = $uploadImages;
 </head>
 
 <body>
+<div id="wrapper">
 <h1>Téléchargez ici vos images</h1>
 
 <?php require_once ('menu_admin.php'); 
@@ -83,6 +84,7 @@ foreach($msg_error as $key => $value) {
 </p>
 
 </form>
-
+<?php require('../footer.php');?>
+</div>
 </body>
 </html>

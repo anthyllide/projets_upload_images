@@ -8,6 +8,7 @@ class Image {
 	
 	public function getImages ()
 	{
+	
 	$i=0;
 
 	try 
@@ -22,8 +23,9 @@ class Image {
 		
 		$rep = $bdd -> query ('SELECT filename FROM images ');
 		
-		if ($rep == true)
+		if ($rep)
 		{
+		var_dump($rep);
 		
 			while ($donnees = $rep -> fetch())
 			{
@@ -40,14 +42,19 @@ class Image {
 				$images [$i] ['description'] = $image_data['description'];
 				$i++;
 				}
+				else
+				{
+				$msg_error = 'L\'image n\'existe pas sur le serveur.';
+				return $msg_error;
+				}
 				
 			}
 		
 			return $images;
 		}
-		else
+		elseif (!$rep)
 		{
-		$msg_error = 'Une erreur est survenue lors de la répération des données.';
+		$msg_error = 'Une erreur est survenue lors de la récupération des données ou il n\'y pas d\'images enregistrées.';
 		return $msg_error;
 		}
 	}
@@ -157,6 +164,21 @@ class Image {
 			}
 	}
 	
+	
+	public function textClean ($name){
+	
+	
+	$special = array(' ','-','â','à','é','è','ë','ê','ï','ç');
+	
+	$normal = array('_','_','a','a','e','e','e','e','i','c');
+	
+	$renomme = strtolower(str_replace($special,$normal, $name));
+	
+	return $renomme;
+	
+	}
+	
+	
 	//créations des images miniatures
 	public function createThumbnail ($filename)
 	{
@@ -238,6 +260,10 @@ class Image {
 		$error = $files ['error'][$key];
 		$name = $files ['name'][$key];
 		
+		$textClean = $this -> textClean ($name);
+		$name = $textClean;
+		print_r ($name);
+		
 		$extension_autorisees = array (
 									'jpg',
 									'jpeg',
@@ -246,6 +272,7 @@ class Image {
 									);
 									
 		$extension = basename($type);
+		
 		print_r($extension);
 	
 		
@@ -276,6 +303,7 @@ class Image {
 							if ($insertImage == true)
 							{
 							$this-> createThumbnail ($name);
+							
 							$msg_success = true;
 							continue;
 							}
@@ -328,6 +356,71 @@ class Image {
 		return $msg_error; //tableau des différentes erreurs
 		}
 		
+	}
+	
+	public function deleteImage ($filename)
+	{
+	
+		//suppression des images et des miniatures
+		$path_image = IMAGE_DIR_PATH.$filename;
+		$path_thumbnail = THUMB_DIR_PATH.$filename;
+	
+		if (file_exists($path_image)) 
+		{
+			if(!unlink($path_image))
+			{
+			$msg_error = 'Une erreur est survenue lors de la suppression de l\'image';
+			return $msg_error;
+			}
+		
+		}
+		else
+		{
+		$msg_error = 'L\'image n\'existe pas.';
+		return $msg_error;
+		}
+	
+		if (file_exists($path_thumbnail)) 
+		{
+		
+			if(!unlink($path_thumbnail))
+		{
+			$msg_error = 'Une erreur est survenue lors de la suppression de la miniature';
+			return $msg_error;
+		}
+		
+		}
+		else
+		{
+		$msg_error = 'La miniature n\'existe pas.';
+		return $msg_error;
+		}
+	
+		//suppression de la base de données
+		try 
+		{
+		$bdd = new PDO('mysql:host=localhost; dbname=projet_image', 'root', '');
+		$bdd->exec("SET NAMES 'UTF8'");
+		}
+		catch (Exception $e)
+		{
+		die ('Erreur : '. $e -> getMessage());
+		}
+		
+		$rep = $bdd -> prepare('DELETE FROM images WHERE filename = ?');
+		$rep -> execute (array($filename));
+	
+		if ($rep === true)
+		{
+		return true;
+		}
+		else
+		{
+		$msg_error = 'Une erreur est survenue lors de la suppression de la base de données';
+		return $msg_error;
+		}
+		
+	
 	}
 	
 	
