@@ -4,7 +4,6 @@ $image = new Image();
 
 $affichage_images = $image -> getImages ();
 
-var_dump($affichage_images);
 
 if (!is_array($affichage_images))
 {
@@ -24,7 +23,7 @@ else
 	?>
 
 	<ul id="miniature_index">
-	<li><img src="<?php echo THUMBNAIL_DIR_URL.$value ['filename']; ?>"/></li>
+	<li><a target="_top" href="<?php echo IMAGE_DIR_URL.$value['filename'];?>"><img src="<?php echo THUMBNAIL_DIR_URL.$value ['filename']; ?>"/></a></li>
 	</ul>
 	<?php
 	}

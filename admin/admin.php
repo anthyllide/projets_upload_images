@@ -84,7 +84,7 @@ if (is_array($affichage_images))
 	<p><a href="admin.php?delete=<?php echo $value ['filename'];?>">Supprimer</a></p>
 	</form>
 	</div>
-	<div class="clear"></div>
+	
 	<?php
 	}
 	
@@ -96,8 +96,10 @@ $msg_error = $affichage_images;
 <p id="msg_error"><?php echo $msg_error; ?></p>
 <?php
 }
-require('../footer.php');
-	?>
+?>
+<div class="clear"></div>
+
+<?php require('../footer.php'); ?>
  </div>                         
 </body>
 </html>

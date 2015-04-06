@@ -77,9 +77,9 @@ border-right : dotted 2px white;
 list-style : none; 
 display : block;
 float: left;
-margin : 10px;
-width : 300px;
-height : 200px;
+margin : 12px;
+width : 200px;
+height : 150px;
 }
 
 div#div_admin {
@@ -93,7 +93,7 @@ border : solid 1px black;
 div#div_admin  form {
 width : 400px;
 border : none;
-margin-left : 20px;
+margin-left : 10px;
 }
 
 div#div_admin ul li {
@@ -139,7 +139,7 @@ margin : 0 auto;
 }
 
 form {
-width: 600px;
+width: 500px;
 height : 200px;
 margin : 10px auto;
 }
@@ -173,3 +173,44 @@ form p input#submit:hover, form p input#upload:hover {
 color : black;
 }
 
+div#user_login , div#registration_user_login {
+float : left;
+width : 450px;
+border-right : 1px solid black;
+margin : 20px 0 0 15px;
+}
+
+div#user_login form, div#registration_user_login form, div#user_login h2, div#registration_user_login h2 {
+width : 400px;
+padding : 10px;
+}
+
+div#user_login form p input, div#registration_user_login form p input{
+width : 250px;
+height : 20px;
+padding : 2px;
+}
+
+div#user_login form p input#user_submit, div#registration_user_login form p input#registration_submit {
+height : 30px;
+width : 100px;
+cursor: pointer;
+margin : 20px 0 0 275px;
+}
+
+div#user_login form label, div#registration_user_login form label {
+font-family : Arial;
+font-size : 12px;
+padding-right : 10px;
+}
+
+div#user_login form p input#user_login, div#registration_user_login form p input#registration_login {
+margin-left : 47px;
+}
+
+div#registration_user_login form p input#password2 {
+margin-left : 125px;
+padding : 2px;
+}
+
+div#registration_user_login form p input#registration_login 

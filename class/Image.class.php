@@ -21,14 +21,16 @@ class Image {
 		die ('Erreur : '. $e -> getMessage());
 		}
 		
-		$rep = $bdd -> query ('SELECT filename FROM images ');
+		$rep = $bdd -> query ('SELECT filename FROM images');
 		
-		if ($rep)
+		$count = $rep -> rowCount();// on compte le nombre de lignes
+		
+		if ($count > 0)
 		{
-		var_dump($rep);
-		
+			
 			while ($donnees = $rep -> fetch())
 			{
+		
 				$path = IMAGE_DIR_PATH.$donnees['filename'];
 				
 				if (file_exists($path))
@@ -52,11 +54,16 @@ class Image {
 		
 			return $images;
 		}
-		elseif (!$rep)
+		else
 		{
 		$msg_error = 'Une erreur est survenue lors de la récupération des données ou il n\'y pas d\'images enregistrées.';
 		return $msg_error;
 		}
+		
+		
+		
+	$rep -> closeCursor();
+	
 	}
 	
 	// Insertion d'une image dans la table images
@@ -409,8 +416,10 @@ class Image {
 		
 		$rep = $bdd -> prepare('DELETE FROM images WHERE filename = ?');
 		$rep -> execute (array($filename));
-	
-		if ($rep === true)
+		
+		$donnees = $rep -> fetch();
+		
+		if (!$donnees)
 		{
 		return true;
 		}
