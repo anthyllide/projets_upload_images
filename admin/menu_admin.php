@@ -1,7 +1,10 @@
+<?php require ('../process/process_menu.php');?>
+
 <nav>
 <ul>
-<li><a href="../login.php">Administration</a></li>
-<li><a href="upload.php">Upload</a></li>
-<li><a href="../index.php">Retour site</a></li>
+<?php foreach ($menu_html as $value){
+echo $value;
+}?>
+<li><a href="../index.php">Retour au site</a></li>
 <ul>
 </nav>

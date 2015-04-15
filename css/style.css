@@ -138,6 +138,15 @@ text-align : center;
 margin : 0 auto;
 }
 
+#user_box{
+position : absolute;
+top : 5px;
+right : 90px;
+min-width : 200px;
+text-align : center;
+border : 1px solid black;
+}
+
 form {
 width: 500px;
 height : 200px;

@@ -263,13 +263,14 @@ class Image {
 		foreach ($files ['tmp_name'] as $key => $tmp_name)
 		{
 		
-		$type = $files ['type'][$key];
-		$error = $files ['error'][$key];
+		
 		$name = $files ['name'][$key];
 		
 		$textClean = $this -> textClean ($name);
 		$name = $textClean;
-		print_r ($name);
+		
+		$type = $files ['type'][$key];
+		$error = $files ['error'][$key];
 		
 		$extension_autorisees = array (
 									'jpg',

@@ -1,7 +1,10 @@
 <?php 
-require_once('config.php');
+session_start();
 
-require_once('process/process_auth.php');
+require_once('config.php');
+require('class/User.class.php');
+
+require('process/process_auth.php');
 
 ?>
 
@@ -18,7 +21,6 @@ require_once('process/process_auth.php');
 
 <div id="error">
 <?php
-var_dump($msg_error);
 if (isset ($msg_error))
 {
 ?>

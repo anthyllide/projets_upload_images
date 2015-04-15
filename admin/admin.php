@@ -1,11 +1,13 @@
 <?php
-
+session_start();
 require_once('../config.php');
+require_once('../process/process_session.php');
 require_once('../class/Image.class.php');
 require_once('../process/process_delete.php');
 require_once('../process/process_image.php');
-
-
+      
+print_r($_SESSION['user_login']);
+print_r($_SESSION['user_role']);
 ?>
 <!DOCTYPE html>
 <html lang='fr'>
@@ -21,6 +23,26 @@ require_once('../process/process_image.php');
 <div id="wrapper">
 
 <h1><?php echo WEB_TITLE; ?></h1>
+
+<div id="user_box">
+<?php 
+if (!empty($_SESSION['user_login'])){
+?>
+
+<p>Bonjour  <?php echo $_SESSION['user_login'];?></p>
+<p><a href="../logout.php">Déconnexion</a></p>
+
+<?php
+}
+else
+{
+?>
+<p>Non connecté</p>
+<?php
+}
+?>
+</div>
+
 
 <?php require_once ('menu_admin.php'); ?>
 

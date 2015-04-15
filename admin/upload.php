@@ -1,6 +1,7 @@
 <?php
 
 require_once('../config.php');
+require_once('../process/process_session.php');
 require('../class/Image.class.php');
 
 // création de l'objet $image
