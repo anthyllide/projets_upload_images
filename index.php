@@ -1,7 +1,9 @@
 <?php
-require_once('class/Image.class.php');
+session_start();
 require_once('config.php');
-
+require('Models/connexion_bdd.php');
+require_once('Models/classes/Image.class.php');
+require_once('Models/classes/User.class.php');
 
 ?>
 <!DOCTYPE html>
@@ -10,7 +12,7 @@ require_once('config.php');
 <head>
 <meta charset='UTF-8'/>
 <title><?php echo WEB_TITLE;?></title>
-<link rel="stylesheet" href="css/style.css" media="screen" />
+<link rel="stylesheet" href="Views/css/style.css" media="screen" />
 </head>
 
 <body>
@@ -19,22 +21,38 @@ require_once('config.php');
 
 <h1><?php echo WEB_TITLE; ?></h1>
 
+<?php 
+if (empty($_SESSION['user_login']))
+{
+?>
 <nav>
 <ul>
-<li><a href="login.php">Administration</a></li>
+<li><a href="Views/login.php">Login</a></li>
 </ul>
 </nav>
-
+<?php
+}
+else
+{
+?>
+<nav>
+<ul>
+<li><a href="Views/admin.php">Administration</a></li>
+</ul>
+</nav>
+<?php
+}
+?>
 
 <div id="vignettes">
 
-<?php require_once('contenu.php');?>
+<?php require_once('Views/includes/contenu.php');?>
 
 <div class="clear"></div>
 
 </div>
 
-<?php require('footer.php');?>
+<?php require('Views/includes/footer.php');?>
 
 </div>
                             

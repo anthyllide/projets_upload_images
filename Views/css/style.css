@@ -1,0 +1,225 @@
+* {
+margin : 0;
+padding : 0;
+}
+
+html{
+background-image:linear-gradient(#e2e9ea, #aab7b8);
+}
+
+
+#wrapper {
+width : 990px;
+min-height : 600px;
+margin : 0 auto;
+border-radius : 20px;
+}
+
+h1 {
+font-family : Arial;
+color: black;
+font-size : 25px;
+text-align : center;
+margin : 10px 0;
+}
+
+nav {
+height : 50px;
+width : 900px;
+background-image:linear-gradient(black, grey);
+border-radius : 10px;
+margin : 10px auto;
+}
+
+nav ul  li{
+list-style : none;
+width : 130px;
+display : inline-block;
+text-align : center;
+}
+
+nav ul li a {
+font-family : Arial;
+font-size : 15px;
+font-weight : bold;
+text-decoration : none;
+line-height : 50px;
+margin-left : 10px;
+color : white;
+}
+
+nav ul li a:hover {
+color : orange;
+}
+
+footer {
+border : 1px dotted white;
+height : 40px;
+width : 900px;
+margin : 20px auto;
+text-align : center;
+line-height : 40px;
+font-weight : italic;
+}
+
+#miniature_index li img{
+border : solid black 1px;
+}
+
+#vignettes {
+margin : 10px auto;
+width: 900px;
+border-left : dotted 2px white;
+border-right : dotted 2px white;
+}
+
+#vignettes ul li {
+list-style : none; 
+display : block;
+float: left;
+margin : 12px;
+width : 200px;
+height : 150px;
+}
+
+div#div_admin {
+margin : 20px 0 0 60px;
+width : 400px;
+height : 450px;
+float : left;
+border : solid 1px black;
+}
+
+div#div_admin  form {
+width : 400px;
+border : none;
+margin-left : 10px;
+}
+
+div#div_admin ul li {
+list-style : none;
+display : block;
+margin-top : 10px;
+text-align : center;
+}
+
+div#div_admin  form p textarea#description {
+width : 350px;
+overflow : auto;
+}
+
+div#div_admin  form label{
+padding : 0 10px 0 10px;
+}
+
+.clear {
+clear : both;
+}
+
+#msg_success {
+background-color : #76ec7e;
+border : solid 1px green;
+width : 300px;
+height : 30px;
+line-height : 30px;
+text-align : center;
+margin : 0 auto;
+}
+
+
+#msg_error {
+background-color : #ec433a;
+border : solid 1px red;
+min-width : 300px;
+max-width : 800px;
+height : 30px;
+line-height : 30px;
+text-align : center;
+margin : 0 auto;
+}
+
+#user_box{
+position : absolute;
+top : 5px;
+right : 90px;
+min-width : 200px;
+text-align : center;
+border : 1px solid black;
+}
+
+form {
+width: 500px;
+height : 200px;
+margin : 10px auto;
+}
+
+form label {
+font-family : Arial;
+font-size : 15px;
+font-weight : bold;
+}
+
+form p {
+margin-top : 20px;
+}
+
+form p input#upload {
+width : 300px;
+height : 30px;
+font-family : Arial;
+font-size : 15px;
+cursor: pointer;
+}
+
+form p input#submit {
+height : 30px;
+font-family : Arial;
+font-size : 15px;
+cursor: pointer;
+}
+
+form p input#submit:hover, form p input#upload:hover {
+color : black;
+}
+
+div#user_login , div#registration_user_login {
+float : left;
+width : 450px;
+border-right : 1px solid black;
+margin : 20px 0 0 15px;
+}
+
+div#user_login form, div#registration_user_login form, div#user_login h2, div#registration_user_login h2 {
+width : 400px;
+padding : 10px;
+}
+
+div#user_login form p input, div#registration_user_login form p input{
+width : 250px;
+height : 20px;
+padding : 2px;
+}
+
+div#user_login form p input#user_submit, div#registration_user_login form p input#registration_submit {
+height : 30px;
+width : 100px;
+cursor: pointer;
+margin : 20px 0 0 275px;
+}
+
+div#user_login form label, div#registration_user_login form label {
+font-family : Arial;
+font-size : 12px;
+padding-right : 10px;
+}
+
+div#user_login form p input#user_login, div#registration_user_login form p input#registration_login {
+margin-left : 47px;
+}
+
+div#registration_user_login form p input#password2 {
+margin-left : 125px;
+padding : 2px;
+}
+
+div#registration_user_login form p input#registration_login 
