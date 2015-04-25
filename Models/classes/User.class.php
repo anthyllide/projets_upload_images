@@ -22,29 +22,14 @@ class User {
 	
 	public function login_authorised ($login) {
 	
-	$login_lenght = strlen($login);
-	
-	$authorised_characters = array ('a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z',0,1,2,3,4,5,6,7,8,9,'à','é','è','ê','ë','ç','ô','û','î','ï','A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z','@');
-		
-			$error_login = 0;
-		
-			for ($i=0; $i<$login_lenght; $i++){
-		
-				if(!in_array($login[$i],$authorised_characters)){
-			
-				$error_login++;
-			
-				}
-			}
-				
-			if($error_login > 0)
-			{
-			return false;
-			}
-			else
-			{
-			return true;
-			}
+	if (preg_match("#^[a-zA-Z0-9]+@[a-zA-Z0-9]{2,}\.[a-z]{2,20}$#",$login))
+	{
+		return true;
+	}
+	else
+	{
+		return false;
+	}
 	}	
 
 	public function password_authorised ($password){
@@ -75,6 +60,10 @@ class User {
 	}
 
 	public function authUser ($login, $password){
+	
+	$salt = md5($login);
+	$crypt_password = $salt.$password;
+	$password = md5($crypt_password);
 
 	try 
 		{
@@ -89,16 +78,16 @@ class User {
 	$rep = $bdd -> prepare('SELECT id, login, password, role FROM user WHERE login=?');
 	$rep -> execute (array($login));
 	
-	while($row = $rep -> fetch()){
+	$row = $rep -> fetch();
 	
 	//on vérifie si le login existe
 	if (!isset($row['login'])){
-	 $msg_error = 'Le login n\'existe pas.';
-	 return $msg_error;
+	$msg_error = 'Le login n\'existe pas.';
+	return $msg_error;
 	}
 	else 
 	{
-	
+
 		// on vérifie que le mot de passe est correct
 		if($row['password'] === $password)
 		{
@@ -112,9 +101,9 @@ class User {
 		}
 		
 	}
-	}
+}
 	
-	}
+	
 	
 public function displayMenu ($user_role_id){
 
@@ -200,6 +189,123 @@ public function checkPermission ($user_role_id){
 		}
 	
 	}
+}
+
+public function newUser ($login, $password){
+	
+	$login_authorised = $this -> login_authorised ($login);
+
+	if ($login_authorised === true){
+		
+		$salt = md5($login);
+	}
+	else
+	{
+		$msg_error = 'Login non compatible';
+		return $msg_error;
+	}
+	
+	
+	$password_authorised = $this -> password_authorised ($password);
+	
+	if ($password_authorised === true)
+	{
+		$password = $salt.$password;
+		$password = md5($password);
+	}
+	else
+	{
+		$msg_error = 'mot de passe non compatible';
+		return $msg_error;
+	}
+	
+	try 
+		{
+		$bdd = new PDO('mysql:host=localhost; dbname=projet_image', 'root', '');
+		$bdd->exec("SET NAMES 'UTF8'");
+		}
+		catch (Exception $e)
+		{
+		die ('Erreur : '. $e -> getMessage());
+		}
+		
+	$rep = $bdd -> prepare('INSERT INTO user (login,password, role) VALUES (:login, :password, :role)');
+	
+	$insert = $rep -> execute (array (
+					'login' => $login,
+					'password' => $password,
+					'role' => 0
+					));
+					
+	if (!$insert){
+	return false;
+	}
+	else
+	{
+	$_SESSION['user_role'] = 0;
+	return true;
+	}
+	
+}
+
+public function lostPassword ($mail){
+
+	try 
+		{
+		$bdd = new PDO('mysql:host=localhost; dbname=projet_image', 'root', '');
+		$bdd->exec("SET NAMES 'UTF8'");
+		}
+		catch (Exception $e)
+		{
+		die ('Erreur : '. $e -> getMessage());
+		}
+		
+	$rep = $bdd -> prepare ('SELECT id, login, password, role FROM user WHERE login=?');
+	$rep -> execute (array($mail));
+	
+	$row = $rep -> fetch();
+	
+	if (!isset($row ['login']))
+	{
+	$msg_error = 'Cet Email n\'existe pas.';
+	return $msg_error;
+	}
+	else
+	{
+	$salt= md5($mail);
+	$password = 'nouveau';
+	$crypt_password = $salt.$password;
+	$password = md5($crypt_password);
+	
+	$rep = $bdd -> prepare('UPDATE user SET password = :newpassword WHERE login=:mail');
+	$rep -> execute(array(
+					'newpassword' => $password,
+					'mail' => $mail
+	));
+	
+	if ($rep){
+	
+	$to = $mail;
+	$subjet = 'Votre mot de passe';
+	$message = 'Bonjour, le nouveau mot de passe est "nouveau".
+	<a href=".WEB_DIR_URL./Views/login.php">Cliquez ici pour vous connecter.</a>';
+	$headers = 'De monBlogImage.com';
+	
+	$send_mail = mail($to, $subjet, $message, $headers);
+	
+		if ($send_mail)
+		{
+		return true;
+		}
+		else
+		{
+		$msg_error ='Email non envoyé.';
+		return $msg_error;
+		}
+	}
+	
+	}
+
 }
 	
 

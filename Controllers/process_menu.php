@@ -4,8 +4,6 @@ $user = new User();
 
 $menu_items = $user -> displayMenu ($_SESSION['user_role']);
 
-var_dump ($menu_items);
-
 if ($menu_items === false){
 echo 'Le menu ne peut pas être affiché.';
 }

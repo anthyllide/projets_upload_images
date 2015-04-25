@@ -32,11 +32,28 @@ if (empty($_SESSION['user_login']))
 </nav>
 <?php
 }
-else
+elseif ($_SESSION['user_role'] == 0)
 {
 ?>
+<div id="user_box">
+<p>Bonjour  <?php echo $_SESSION['user_login'];?></p>
+</div>
 <nav>
 <ul>
+<li><a href="Views/logout.php">Déconnexion</a></li>
+</ul>
+</nav>
+<?php
+}
+elseif ($_SESSION ['user_role'] > 0)
+{
+?>
+<div id="user_box">
+<p>Bonjour  <?php echo $_SESSION['user_login'];?></p>
+</div>
+<nav>
+<ul>
+<li><a href="Views/logout.php">Déconnexion</a></li>
 <li><a href="Views/admin.php">Administration</a></li>
 </ul>
 </nav>

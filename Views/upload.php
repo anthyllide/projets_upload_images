@@ -46,7 +46,20 @@ $msg_error = $uploadImages;
 <div id="wrapper">
 <h1>Téléchargez ici vos images</h1>
 
-<?php require_once ('includes/menu.php'); 
+<div id="user_box">
+<?php
+if (!empty($_SESSION['user_login'])){
+?>
+
+<p>Bonjour  <?php echo $_SESSION['user_login'];?></p>
+
+<?php
+}
+?>
+</div>
+
+<?php
+require_once ('includes/menu.php'); 
 
 if (isset($msg_success))
 {

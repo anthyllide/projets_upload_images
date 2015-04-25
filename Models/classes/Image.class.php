@@ -1,4 +1,6 @@
 <?php
+
+
 class Image {
 
 	public function __construct () 
@@ -140,7 +142,15 @@ class Image {
 	public function updateImageData ($title, $descr, $filename)
 	{
 	
-		require ('../connexion_bdd.php');
+		try 
+		{
+		$bdd = new PDO('mysql:host=localhost; dbname=projet_image', 'root', '');
+		$bdd->exec("SET NAMES 'UTF8'");
+		}
+		catch (Exception $e)
+		{
+		die ('Erreur : '. $e -> getMessage());
+		}
 		
 		
 			$update_image = $bdd-> prepare('UPDATE images SET title=:title, description=:descr WHERE filename=:filename');
@@ -252,8 +262,6 @@ class Image {
 	public function upload($files)
 	{
 		
-		print_r($files);
-		
 		foreach ($files ['tmp_name'] as $key => $tmp_name)
 		{
 		
@@ -274,8 +282,6 @@ class Image {
 									);
 									
 		$extension = basename($type);
-		
-		print_r($extension);
 	
 		
 			if (in_array($extension, $extension_autorisees))
@@ -399,7 +405,15 @@ class Image {
 		}
 	
 		//suppression de la base de données
-		require ('../connexion_bdd.php');
+		try 
+		{
+		$bdd = new PDO('mysql:host=localhost; dbname=projet_image', 'root', '');
+		$bdd->exec("SET NAMES 'UTF8'");
+		}
+		catch (Exception $e)
+		{
+		die ('Erreur : '. $e -> getMessage());
+		}
 		
 		$rep = $bdd -> prepare('DELETE FROM images WHERE filename = ?');
 		$rep -> execute (array($filename));

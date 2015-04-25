@@ -9,8 +9,6 @@ require_once('../Controllers/process_delete.php');
 require_once('../Controllers/process_image.php');
 require_once ('../Controllers/process_menu.php');
       
-print_r($_SESSION['user_login']);
-print_r($_SESSION['user_role']);
 ?>
 <!DOCTYPE html>
 <html lang='fr'>
